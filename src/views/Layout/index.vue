@@ -6,7 +6,7 @@
         <img :src="logo" alt="" />
       </div>
       <el-menu router :default-active="meunlis.activeMenu" background-color="#48525c" class="nav-menu" collapse>
-        <el-menu-item index="2">
+        <el-menu-item index="workbench">
           <svg-icon name="Console" style="font-size: 18px" />
           <template #title>工作台</template>
         </el-menu-item>
@@ -54,7 +54,7 @@
       </el-menu>
       <div class="sider-button" @click="handleUser">
         <el-avatar> user </el-avatar>
-        <div v-show="onuser" class="userinfo">
+        <div v-show="onuser" class="userinfo demo-shadow-text">
           <div class="userinfo-top">
             <el-avatar> user </el-avatar>
             <div class="userinfo-right">
@@ -67,7 +67,7 @@
             <svg-icon name="设置" style="font-size: 20px;" /><span class="zh">账号设置</span>
           </div>
           <div />
-          <div class="userinfos">
+          <div class="userinfos" @click="LogOut">
             <svg-icon name="退出" style="font-size: 20px; " /><span class="tc">退出登录</span>
           </div>
         </div>
@@ -82,13 +82,30 @@
 </template>
 <script setup>
 import logo from 'assets/images/logo-2.png'
-import { reactive, ref } from 'vue'
-
+import { reactive, ref, getCurrentInstance, onMounted } from 'vue'
+import { ElMessage } from 'element-plus'
+const { proxy } = getCurrentInstance()
 const onuser = ref(false)
+const handleUser = () => {
+  onuser.value = !onuser.value
+}
 const meunlis = reactive({
   activeMenu: location.hash.slice(2)
 })
-console.log(meunlis.activeMenu)
+const LogOut = () => {
+  proxy.$api.signOut().then(res => {
+    ElMessage.error(res)
+    proxy.$router.push('/login')
+  })
+
+}
+
+// onMounted(() => {
+//   userInfo()
+// })
+
+
+// console.log(meunlis.activeMenu)
 
 </script>
 
@@ -132,9 +149,11 @@ console.log(meunlis.activeMenu)
         width: 250px;
         height: 184px;
         background: #fff;
+        color: #000;
         padding: 10px 20px;
         top: -135px;
         left: 60px;
+        z-index: 9999999 !important;
 
         .userinfo-top {
           display: flex;
@@ -152,6 +171,7 @@ console.log(meunlis.activeMenu)
           padding: 10px 0;
           display: flex;
           align-items: center;
+
 
           .zh {
             padding-left: 10px;

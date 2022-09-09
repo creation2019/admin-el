@@ -8,13 +8,21 @@ const routes = [
   {
 
     name: 'home',
-    path: '/admin',
+    path: '/',
     meta: {
       title: '首页'
     },
-    redirect: '/system',
+    redirect: '/workbench',
     component: () => import('views/Layout/index.vue'),
     children: [
+      {
+        name: 'workbench',
+        path: '/workbench',
+        meta: {
+          title: '工作台'
+        },
+        component: () => import('components/Workbench/index.vue'),
+      },
       {
         name: 'project',
         path: '/project',
