@@ -29,7 +29,7 @@ const routes = [
         meta: {
           title: '项目'
         },
-        component: () => import('components/Project/Project.vue')
+        component: () => import('components/Project/index.vue')
       },
       {
         name: 'system',

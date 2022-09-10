@@ -1,5 +1,7 @@
 <template>
-  <div id="container" style="width:400px; height:400px">
+  <div class="project-container">
+    <div id="container" style="width:400px; height:400px"></div>
+
 
   </div>
 </template>
@@ -9,7 +11,6 @@ import * as echarts from 'echarts'
 import { onMounted } from "vue"
 
 onMounted(() => {
-
   initLine()
 })
 const initLine = () => {

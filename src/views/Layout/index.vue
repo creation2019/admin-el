@@ -54,7 +54,7 @@
       </el-menu>
       <div class="sider-button" @click="handleUser">
         <el-avatar> user </el-avatar>
-        <div v-show="onuser" class="userinfo demo-shadow-text">
+        <div v-show="onuser" class="userinfo">
           <div class="userinfo-top">
             <el-avatar> user </el-avatar>
             <div class="userinfo-right">
@@ -74,9 +74,7 @@
       </div>
     </div>
     <div class="content-right">
-      <div class="wrapper">
-        <router-view />
-      </div>
+      <router-view />
     </div>
   </div>
 </template>
@@ -122,6 +120,7 @@ const LogOut = () => {
     overflow-y: visible;
     transition: width 0.5s;
     margin: 0;
+    top: 0;
 
     .logos {
       display: flex;
@@ -194,19 +193,8 @@ const LogOut = () => {
   }
 
   .content-right {
-
-
-    .wrapper {
-      width: calc(100vw - 60px);
-      height: 100vh;
-      background: #eef0f3;
-      margin-left: 60px;
-
-      .main-page {
-        background: #fff;
-        height: 100%;
-      }
-    }
+    background: #eeeeee;
+    margin-left: 60px;
   }
 
 }

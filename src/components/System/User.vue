@@ -47,43 +47,46 @@
 
   <el-dialog v-model="dialogFormVisible" title="添加成员" width="800px">
     <div class="dialog-content">
-      图标 添加成员账号,成员通过用户名和初始密码登录系统
+      <div class="dialog-tile">
+        图标 添加成员账号,成员通过用户名和初始密码登录系统
+      </div>
+      <el-form :model="form" label-position="top">
+        <el-form-item label="姓名">
+          <el-input v-model=" form.name" autocomplete="off" />
+        </el-form-item>
+        <el-form-item label="登录用户名">
+          <el-input v-model=" form.name" autocomplete="off" />
+        </el-form-item>
+        <el-form-item label="手机号">
+          <el-input v-model=" form.name" autocomplete="off" />
+        </el-form-item>
+        <el-form-item label="邮箱">
+          <el-input v-model=" form.name" autocomplete="off" />
+        </el-form-item>
+        <el-form-item label="初始密码">
+          <el-input v-model=" form.name" autocomplete="off" />
+        </el-form-item>
+        <el-form-item label="权限">
+          <el-select v-model="form.region" placeholder="Please select a zone">
+            <el-option label="Zone No.1" value="shanghai" />
+            <el-option label="Zone No.2" value="beijing" />
+          </el-select>
+        </el-form-item>
+        <el-form-item label="所属部门">
+          <el-select v-model="form.region" placeholder="Please select a zone">
+            <el-option label="Zone No.1" value="shanghai" />
+            <el-option label="Zone No.2" value="beijing" />
+          </el-select>
+        </el-form-item>
+        <el-form-item label="职位">
+          <el-select v-model="form.region" placeholder="Please select a zone">
+            <el-option label="Zone No.1" value="shanghai" />
+            <el-option label="Zone No.2" value="beijing" />
+          </el-select>
+        </el-form-item>
+      </el-form>
     </div>
-    <el-form :model="form" label-position="top">
-      <el-form-item label="姓名">
-        <el-input v-model=" form.name" autocomplete="off" />
-      </el-form-item>
-      <el-form-item label="登录用户名">
-        <el-input v-model=" form.name" autocomplete="off" />
-      </el-form-item>
-      <el-form-item label="手机号">
-        <el-input v-model=" form.name" autocomplete="off" />
-      </el-form-item>
-      <el-form-item label="邮箱">
-        <el-input v-model=" form.name" autocomplete="off" />
-      </el-form-item>
-      <el-form-item label="初始密码">
-        <el-input v-model=" form.name" autocomplete="off" />
-      </el-form-item>
-      <el-form-item label="权限">
-        <el-select v-model="form.region" placeholder="Please select a zone">
-          <el-option label="Zone No.1" value="shanghai" />
-          <el-option label="Zone No.2" value="beijing" />
-        </el-select>
-      </el-form-item>
-      <el-form-item label="所属部门">
-        <el-select v-model="form.region" placeholder="Please select a zone">
-          <el-option label="Zone No.1" value="shanghai" />
-          <el-option label="Zone No.2" value="beijing" />
-        </el-select>
-      </el-form-item>
-      <el-form-item label="职位">
-        <el-select v-model="form.region" placeholder="Please select a zone">
-          <el-option label="Zone No.1" value="shanghai" />
-          <el-option label="Zone No.2" value="beijing" />
-        </el-select>
-      </el-form-item>
-    </el-form>
+
     <template #footer>
       <span class="dialog-footer">
         <el-button @click="dialogFormVisible = false">Cancel</el-button>
@@ -205,7 +208,7 @@ for (let i = 0; i < 15; i++) {
   }
 }
 
-.dialog-content {
+.dialog-tile {
   border: 1px solid #eee;
   border-radius: 2%;
   height: 44px;
@@ -213,17 +216,8 @@ for (let i = 0; i < 15; i++) {
   align-items: center;
   padding-left: 20px;
   border-left: 2px solid rgb(76, 141, 226);
-  position: relative;
 
-  &::after {
-    content: '';
-    position: absolute;
-    width: 800px;
-    height: 1px;
-    background-color: #eee;
-    top: -27px;
-    left: -22px;
-  }
+
 }
 
 
@@ -232,8 +226,6 @@ for (let i = 0; i < 15; i++) {
   flex-wrap: wrap;
   justify-content: space-between;
   margin-top: 20px;
-  padding-bottom: 30px;
-  border-bottom: 1px solid #eee;
 
   .el-form-item {
     width: 355px;

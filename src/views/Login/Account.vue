@@ -7,7 +7,7 @@
       <el-input v-model="formAlign.password" show-password placeholder="请输入登录密码" />
     </el-form-item>
     <el-form-item>
-      <el-button type="primary" size="large" style="width: 100%;" @click="onlginger">Primary</el-button>
+      <el-button type="primary" size="large" style="width: 100%;" @click="onlginger">登录</el-button>
     </el-form-item>
   </el-form>
 </template>

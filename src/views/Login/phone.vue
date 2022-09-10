@@ -9,10 +9,10 @@
     </el-form-item>
     <el-form-item label="手机号验证码" class="form-button">
       <el-input v-model="formLabelAlign.region" placeholder="请输入验证码" />
-      <el-button type="primary" size="small" class="btn">Previous Page</el-button>
+      <el-button type="primary" size="small" class="btn">获取短信验证码</el-button>
     </el-form-item>
     <el-form-item>
-      <el-button type="primary" style="width: 100%;">Primary</el-button>
+      <el-button type="primary" style="width: 100%;">登录</el-button>
     </el-form-item>
   </el-form>
 </template>

@@ -1,9 +1,9 @@
 html,
-body,
-#app {
+body {
   height: 100%;
   width: 100%;
   font-size: 14px;
+  background-color: #eee;
 }
 *:not([class^='el-']) {
   box-sizing: border-box;
@@ -61,37 +61,18 @@ a {
 /*
 * 公共样式
 */
-.query-form {
-  background-color: #ffffff;
-  padding: 22px 20px 0;
-  border-radius: 5px;
-}
-.base-table {
-  border-radius: 5px;
-  background: #ffffff;
-  margin-top: 20px;
-  margin-bottom: 20px;
-  .action {
-    border-radius: 5px 5px 0px 0px;
-    background: #ffffff;
-    padding: 20px;
-    border-bottom: 1px solid #ece8e8;
-  }
-  .pagination {
-    text-align: right;
-    padding: 10px;
-  }
-}
+
 .list-inline {
-  margin: 0;
   display: flex;
   justify-content: center;
   align-items: center;
 
   li {
     line-height: 50px;
-    padding: 0 30px;
+    width: 120px;
+    display: flex;
     position: relative;
+    justify-content: center;
 
     &:hover {
       color: #348fe4;
@@ -103,8 +84,28 @@ a {
       width: 100px;
       height: 2px;
       background-color: #348fe4;
+      bottom: -1px;
+      left: 10px;
+    }
+  }
+  .active {
+    color: #348fe4 !important;
+
+    &:after {
+      content: '';
+      position: absolute;
+      width: 100px;
+      height: 2px;
+      background-color: #348fe4;
       bottom: 0;
       left: 10px;
     }
   }
+}
+.el-dialog__body {
+  padding: 0 !important;
+}
+.dialog-content {
+  border-top: 1px solid #eee;
+  border-bottom: 1px solid #eee;
 }
