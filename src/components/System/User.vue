@@ -17,14 +17,19 @@
         <div class="header-right">图标</div>
       </div>
       <div class="side-content">
-        <el-table :data="tableData" :border="parentBorder" style="width: 100%">
-          <el-table-column type="expand">
-            <template #default="props">
-              全部部门
-            </template>
-          </el-table-column>
-          <el-table-column label="全部部门（8人）" prop="date" />
-        </el-table>
+        <el-tree :data="datad" :props="defaultProps" @node-click="handleNodeClick">
+          <template #default="{ node, data }">
+            <span class="custom-tree-node">
+              <span>
+                <svg-icon name="Console" style="font-size: 18px" />
+                {{ node.label }}
+              </span>
+              <span>
+                ....
+              </span>
+            </span>
+          </template>
+        </el-tree>
       </div>
     </div>
     <div class="table-container">
@@ -100,9 +105,72 @@
 
 
 import { reactive, ref } from 'vue'
+
 const input = ref('')
 const dialogTableVisible = ref(false)
 const dialogFormVisible = ref(false)
+const datad = [
+  {
+    label: '全部部门',
+  },
+  {
+    label: '总经办',
+    children: [
+      {
+        label: '项目总监',
+      },
+    ],
+  },
+  {
+    label: '商务部',
+    children: [
+      {
+        label: '商务主管',
+      },
+      {
+        label: '商务专员',
+      },
+    ],
+  },
+  {
+    label: '财务部',
+    children: [
+      {
+        label: '财务主管',
+      },
+      {
+        label: '财务专员',
+      },
+    ],
+  },
+  {
+    label: '生产部',
+    children: [
+      {
+        label: '厂务主管',
+      },
+    ],
+  },
+  {
+    label: '品质部',
+    children: [
+      {
+        label: '品质组长',
+      },
+    ],
+  },
+  {
+    label: '储运部',
+  },
+]
+const handleNodeClick = (data) => {
+  console.log(data)
+}
+const defaultProps = {
+  children: 'children',
+  label: 'label',
+}
+
 const formLabelWidth = '140px'
 const tableData = [
   {
@@ -167,6 +235,15 @@ for (let i = 0; i < 15; i++) {
   background-color: #fbfbfb;
   align-items: center;
   justify-content: space-between;
+}
+
+.custom-tree-node {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 14px;
+  padding-right: 8px;
 }
 
 .content {
