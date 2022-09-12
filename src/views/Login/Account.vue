@@ -21,14 +21,14 @@ const formAlign = reactive({
   password: '1234567890',
 })
 const onlginger = () => {
-  proxy.$api.login(formAlign).then((res) => {
-    ElMessage({
-      message: res,
-      type: 'success',
-    })
+  // proxy.$api.login(formAlign).then((res) => {
+  //   ElMessage({
+  //     message: res,
+  //     type: 'success',
+  //   })
 
-    proxy.$router.push('/')
-  })
+  proxy.$router.push('/project')
+  // })
 
 }
 const userInfo = () => {
