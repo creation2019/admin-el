@@ -9,21 +9,28 @@ const service = axios.create({
     baseURL: 'http://192.168.3.205',
     timeout: 8000
 })
+service.interceptors.request.use((req) => {
+    const token = localStorage.getItem("user")
+    token && (req.headers.Authorization = `Bearer${JSON.parse(token).user.tokenInfo.original.access_token}`)
+    return req
+})
 
 // 响应拦截
 service.interceptors.response.use((res) => {
 
-    const { status_code, data, message } = res.data
-    if (status_code === 200) {
-        return data
-    } else if (status_code != 200) {
-        console.log(res)
-        // setTimeout(() => {
-        //     router.push('/login')
-        // }, 1000)
-        ElMessage.error(message)
-        return Promise.reject(message)
-    }
+    // const { status_code, data, message } = res.data
+    // if (status_code === 200) {
+    //     return res.data
+    // } else if (status_code != 200) {
+    //     console.log(res)
+    //     // setTimeout(() => {
+    //     //     router.push('/login')
+    //     // }, 1000)
+    //     // ElMessage.error(message)
+    //     // return Promise.reject(message)
+    // }
+
+    return res.data
 })
 /**
  * 请求核心函数

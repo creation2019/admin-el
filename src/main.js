@@ -8,15 +8,25 @@ import request from './utils/request'
 
 import router from './router'
 
-import { createPinia } from 'pinia'
+import store from '@/store/index'
 
 import 'virtual:svg-icons-register'
 import SvgIcon from '@/assets/svg/SvgIcon.vue'
-
+router.beforeEach((to, from, next) => {
+  if (to.path == '/login') {
+    next()
+  } else {
+    if (!localStorage.getItem("user")) {
+      next('/login')
+    } else {
+      next()
+    }
+  }
+})
 const app = createApp(App)
 app.config.globalProperties.$api = api
 app.config.globalProperties.$request = request
 app.component('svg-icon', SvgIcon)
-app.use(createPinia())
+app.use(store)
 app.use(ElementPlus)
 app.use(router).mount('#app')

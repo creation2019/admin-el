@@ -215,6 +215,7 @@ const vitality = () => {
     .dashboard-girdster-item {
       height: 373px;
       margin-bottom: 10px;
+      padding: 20px 0;
       background-color: #fff;
     }
   }

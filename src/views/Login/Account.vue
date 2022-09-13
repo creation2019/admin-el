@@ -15,20 +15,24 @@
 <script setup>
 import { reactive, getCurrentInstance } from 'vue'
 import { ElMessage } from 'element-plus'
+import { useUserStore } from "@/store/userinfo.js"
 const { proxy } = getCurrentInstance()
+
+const userStore = useUserStore()
 const formAlign = reactive({
   account: 'admin',
   password: '1234567890',
 })
 const onlginger = () => {
-  // proxy.$api.login(formAlign).then((res) => {
-  //   ElMessage({
-  //     message: res,
-  //     type: 'success',
-  //   })
+  proxy.$api.login(formAlign).then((res) => {
+    userStore.user = res.data
+    ElMessage({
+      message: res.message,
+      type: 'success',
+    })
 
-  proxy.$router.push('/project')
-  // })
+    proxy.$router.push('/')
+  })
 
 }
 const userInfo = () => {

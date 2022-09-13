@@ -40,4 +40,13 @@ export default {
       mock: false
     })
   }
+  ,
+  // 系统管理
+  getUserList (params) {
+    return request({
+      url: '/section/section_user_list',
+      method: 'get',
+      data: params,
+    })
+  },
 }

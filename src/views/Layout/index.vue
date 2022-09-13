@@ -35,7 +35,7 @@
           <template #title>财务管理</template>
         </el-menu-item>
         <div style="height:200px"></div>
-        <el-menu-item index="7">
+        <el-menu-item index="aa">
           <svg-icon name="知识库" style="font-size: 18px" />
           <template #title>知识</template>
         </el-menu-item>
@@ -43,33 +43,33 @@
           <svg-icon name="模块" style="font-size: 18px" />
           <template #title>模块</template>
         </el-menu-item>
-        <el-menu-item index="/system">
+        <el-menu-item index="s" @click="system">
           <svg-icon name="系统" style="font-size: 18px" />
           <template #title>系统</template>
         </el-menu-item>
-        <el-menu-item index="8">
+        <el-menu-item index="">
           <svg-icon name="帮助" style="font-size: 18px" />
           <template #title>帮助</template>
         </el-menu-item>
       </el-menu>
-      <div class="sider-button" @click="handleUser">
-        <el-avatar> user </el-avatar>
-        <div v-show="onuser" class="userinfo">
-          <div class="userinfo-top">
-            <el-avatar> user </el-avatar>
-            <div class="userinfo-right">
-              <span>周癸</span>
-              <span style="color: #eee;">18951005670</span>
-            </div>
+      <div class="sider-button">
+        <el-avatar style="background-color:#FB7FBC;font-size: 12px; " @click="handleClick"> {{user.name}} </el-avatar>
+      </div>
+      <div class="sider-user" v-if="useeinfo">
+        <div class="userinfo-top">
+          <el-avatar style="background-color:#FB7FBC; font-size: 12px;">{{user.name}}</el-avatar>
+          <div class=" userinfo-right">
+            <span>{{user.name}}</span>
+            <span style="color: #666;">{{user.phone}}</span>
           </div>
-          <div />
-          <div class="userinfos">
-            <svg-icon name="设置" style="font-size: 20px;" /><span class="zh">账号设置</span>
-          </div>
-          <div />
-          <div class="userinfos" @click="LogOut">
-            <svg-icon name="退出" style="font-size: 20px; " /><span class="tc">退出登录</span>
-          </div>
+        </div>
+        <div style="height:1px ; background-color: #eee; margin: 5px 0;" />
+        <div class="userinfos">
+          <svg-icon name="设置" style="font-size: 20px; margin-right: 10px;" /><span>账号设置</span>
+        </div>
+        <div style="height:1px ; background-color: #eee; margin: 5px 0;" />
+        <div class="userinfos" @click="LogOut">
+          <svg-icon name="退出" style="font-size: 20px; margin-right: 10px;" /><span style="color:#ff7575 ;">退出登录</span>
         </div>
       </div>
     </div>
@@ -82,25 +82,29 @@
 import logo from 'assets/images/logo-2.png'
 import { reactive, ref, getCurrentInstance, onMounted } from 'vue'
 import { ElMessage } from 'element-plus'
+import { storeToRefs } from 'pinia'
+import { useUserStore } from '@/store/userinfo'
 const { proxy } = getCurrentInstance()
-const onuser = ref(false)
-const handleUser = () => {
-  onuser.value = !onuser.value
+
+const userstor = useUserStore()
+const { user } = storeToRefs(userstor)
+let useeinfo = ref(false)
+
+const handleClick = () => {
+  useeinfo.value = !useeinfo.value
+}
+const system = () => {
+  proxy.$router.push('/system')
 }
 const meunlis = reactive({
   activeMenu: location.hash.slice(2)
 })
 const LogOut = () => {
-  proxy.$api.signOut().then(res => {
-    ElMessage.error(res)
-    proxy.$router.push('/login')
-  })
-
+  localStorage.clear()
+  proxy.$router.push('/login')
 }
 
-// onMounted(() => {
-//   userInfo()
-// })
+
 
 
 // console.log(meunlis.activeMenu)
@@ -142,52 +146,44 @@ const LogOut = () => {
       justify-content: center;
       bottom: 0;
       padding-bottom: 20px;
+    }
 
-      .userinfo {
-        position: absolute;
-        width: 250px;
-        height: 184px;
-        background: #fff;
-        color: #000;
-        padding: 10px 20px;
-        top: -135px;
-        left: 60px;
-        z-index: 9999999 !important;
+    .sider-user {
+      width: 250px;
+      height: 184px;
+      padding: 10px 20px;
+      position: absolute;
+      color: #000;
+      left: 60px;
+      bottom: 20px;
+      box-shadow: 0px 3px 7px 5px rgb(0 0 0 / 0.24);
+      background-color: #fff;
 
-        .userinfo-top {
+      .userinfo-top {
+        padding: 9px 0;
+        display: flex;
+
+        .userinfo-right {
+          margin-left: 10px;
           display: flex;
-          align-items: center;
-          padding: 20px 0;
+          flex-direction: column;
+          justify-content: space-around;
 
-          .userinfo-right {
-            display: flex;
-            flex-direction: column;
-            margin-left: 10px;
-          }
+
         }
+      }
 
-        .userinfos {
-          padding: 10px 0;
-          display: flex;
-          align-items: center;
-
-
-          .zh {
-            padding-left: 10px;
-          }
-
-          .tc {
-            padding-left: 10px;
-            color: #f67a78;
-          }
-        }
+      .userinfos {
+        padding: 9px 0;
+        display: flex;
+        align-items: center;
+        color: #666;
       }
     }
 
     .nav-menu {
       border-right: none;
       width: 60px !important;
-
     }
 
   }

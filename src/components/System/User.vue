@@ -14,14 +14,17 @@
     <div class="Sidef">
       <div class="side-header">
         <div class="header-left">组织架构</div>
-        <div class="header-right">图标</div>
+        <div class="header-right">
+          <svg-icon class="svg-icon--right" name="加号1" style="font-size: 26px;" />
+          <svg-icon name="箭头_上一页" style="font-size: 26px;" @click="hiddenisshow" />
+        </div>
       </div>
       <div class="side-content">
-        <el-tree :data="datad" :props="defaultProps" @node-click="handleNodeClick">
+        <el-tree :data="datad.data" :props="defaultProps" @node-click="handleNodeClick">
           <template #default="{ node, data }">
             <span class="custom-tree-node">
               <span>
-                <svg-icon name="Console" style="font-size: 18px" />
+                <svg-icon name="部门详情 (1)" style="font-size: 18px" />
                 {{ node.label }}
               </span>
               <span>
@@ -103,66 +106,69 @@
 
 <script setup>
 
-
+import api from '@/api'
 import { reactive, ref } from 'vue'
-
 const input = ref('')
 const dialogTableVisible = ref(false)
 const dialogFormVisible = ref(false)
-const datad = [
-  {
-    label: '全部部门',
-  },
-  {
-    label: '总经办',
-    children: [
-      {
-        label: '项目总监',
-      },
-    ],
-  },
-  {
-    label: '商务部',
-    children: [
-      {
-        label: '商务主管',
-      },
-      {
-        label: '商务专员',
-      },
-    ],
-  },
-  {
-    label: '财务部',
-    children: [
-      {
-        label: '财务主管',
-      },
-      {
-        label: '财务专员',
-      },
-    ],
-  },
-  {
-    label: '生产部',
-    children: [
-      {
-        label: '厂务主管',
-      },
-    ],
-  },
-  {
-    label: '品质部',
-    children: [
-      {
-        label: '品质组长',
-      },
-    ],
-  },
-  {
-    label: '储运部',
-  },
-]
+let datad = reactive({
+  data: [
+    {
+      label: '全部部门',
+    },
+    {
+      label: '总经办',
+      children: [
+        {
+          label: '项目总监',
+        },
+      ],
+    },
+    {
+      label: '商务部',
+      children: [
+        {
+          label: '商务主管',
+        },
+        {
+          label: '商务专员',
+        },
+      ],
+    },
+    {
+      label: '财务部',
+      children: [
+        {
+          label: '财务主管',
+        },
+        {
+          label: '财务专员',
+        },
+      ],
+    },
+    {
+      label: '生产部',
+      children: [
+        {
+          label: '厂务主管',
+        },
+      ],
+    },
+    {
+      label: '品质部',
+      children: [
+        {
+          label: '品质组长',
+        },
+      ],
+    },
+    {
+      label: '储运部',
+    },
+  ]
+}
+
+)
 const handleNodeClick = (data) => {
   console.log(data)
 }
@@ -172,38 +178,14 @@ const defaultProps = {
 }
 
 const formLabelWidth = '140px'
-const tableData = [
-  {
-    date: '2016-05-03',
-    name: 'Tom',
-    address: '项目总监',
-    phoone: 18651505670,
-    add: '总经办'
-  },
-  {
-    date: '2016-05-02',
-    name: 'Tom',
-    address: '项目总监',
-    phoone: 18651505670,
-    add: '总经办'
-  },
-  {
-    date: '2016-05-04',
-    name: 'Tom',
-    address: '项目总监',
-    phoone: 18651505670,
-    add: '总经办'
-  },
-  {
-    date: '2016-05-01',
-    name: 'Tom',
-    address: '项目总监',
-    phoone: 18651505670,
-    add: '总经办'
-  },
-]
 
-
+const userdata = () => {
+  api.getUserList({}).then(res => {
+    console.log(res)
+    datad.data = res.sectionList
+  })
+}
+userdata()
 
 const form = reactive({
   name: '',
