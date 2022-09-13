@@ -48,16 +48,38 @@ const data = [
       {
         id: 4,
         label: 'Level two 1-1',
-        children: [
-          {
-            id: 9,
-            label: 'Level three 1-1-1',
-          },
-          {
-            id: 10,
-            label: 'Level three 1-1-2',
-          },
-        ],
+      },
+      {
+        id: 9,
+        label: 'Level three 1-1-1',
+      },
+      {
+        id: 10,
+        label: 'Level three 1-1-2',
+      },
+      {
+        id: 9,
+        label: 'Level three 1-1-1',
+      },
+      {
+        id: 10,
+        label: 'Level three 1-1-2',
+      },
+      {
+        id: 9,
+        label: 'Level three 1-1-1',
+      },
+      {
+        id: 10,
+        label: 'Level three 1-1-2',
+      },
+      {
+        id: 9,
+        label: 'Level three 1-1-1',
+      },
+      {
+        id: 10,
+        label: 'Level three 1-1-2',
       },
     ],
   },
@@ -65,6 +87,38 @@ const data = [
     id: 2,
     label: 'Level one 2',
     children: [
+      {
+        id: 5,
+        label: 'Level two 2-1',
+      },
+      {
+        id: 6,
+        label: 'Level two 2-2',
+      },
+      {
+        id: 5,
+        label: 'Level two 2-1',
+      },
+      {
+        id: 6,
+        label: 'Level two 2-2',
+      },
+      {
+        id: 5,
+        label: 'Level two 2-1',
+      },
+      {
+        id: 6,
+        label: 'Level two 2-2',
+      },
+      {
+        id: 5,
+        label: 'Level two 2-1',
+      },
+      {
+        id: 6,
+        label: 'Level two 2-2',
+      },
       {
         id: 5,
         label: 'Level two 2-1',
@@ -87,12 +141,52 @@ const data = [
         id: 8,
         label: 'Level two 3-2',
       },
+      {
+        id: 7,
+        label: 'Level two 3-1',
+      },
+      {
+        id: 8,
+        label: 'Level two 3-2',
+      },
+      {
+        id: 7,
+        label: 'Level two 3-1',
+      },
+      {
+        id: 8,
+        label: 'Level two 3-2',
+      },
+      {
+        id: 7,
+        label: 'Level two 3-1',
+      },
+      {
+        id: 8,
+        label: 'Level two 3-2',
+      },
+      {
+        id: 7,
+        label: 'Level two 3-1',
+      },
+      {
+        id: 8,
+        label: 'Level two 3-2',
+      },
+      {
+        id: 7,
+        label: 'Level two 3-1',
+      },
+      {
+        id: 8,
+        label: 'Level two 3-2',
+      },
     ],
   },
 ]
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss" >
 .header-button {
   display: flex;
   padding: 0 10px;
@@ -104,8 +198,6 @@ const data = [
 
 .content {
   display: flex;
-
-
 
   .card-header {
     display: flex;
@@ -133,11 +225,16 @@ const data = [
   }
 
   .table-container {
-    width: calc(100vw - 380px);
-    height: calc(100vh - 115px);
-    min-width: 800px;
+    flex: 1;
+    height: calc(100vh - 75px);
     background-color: #fff;
-    margin: 10px 10px 10px 0;
+    margin: 10px;
+
+    .el-tree-node__children {
+      display: flex;
+      flex-wrap: wrap;
+    }
+
   }
 }
 </style>

@@ -12,17 +12,17 @@ import store from '@/store/index'
 
 import 'virtual:svg-icons-register'
 import SvgIcon from '@/assets/svg/SvgIcon.vue'
-router.beforeEach((to, from, next) => {
-  if (to.path == '/login') {
-    next()
-  } else {
-    if (!localStorage.getItem("user")) {
-      next('/login')
-    } else {
-      next()
-    }
-  }
-})
+// router.beforeEach((to, from, next) => {
+//   if (to.path == '/login') {
+//     next()
+//   } else {
+//     if (!localStorage.getItem("user")) {
+//       next('/login')
+//     } else {
+//       next()
+//     }
+//   }
+// })
 const app = createApp(App)
 app.config.globalProperties.$api = api
 app.config.globalProperties.$request = request

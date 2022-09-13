@@ -27,8 +27,24 @@
                 <svg-icon name="部门详情 (1)" style="font-size: 18px" />
                 {{ node.label }}
               </span>
-              <span>
-                ....
+              <span class="tree-node" @click.self.stop="Operation">
+                <el-popover v-model:visible="visible" placement="top" :show-arrow="false" :width="160">
+                  <div style="text-align: left; margin: 0">
+                    <div @click="dialogVisible = true">
+                      <svg-icon class="svg-icon--right" name="加号1" style="font-size: 26px;" /> 新建
+                    </div>
+                    <div>
+                      <svg-icon class="svg-icon--right" name="加号1" style="font-size: 26px;" /> 编辑
+                    </div>
+                    <div>
+                      <svg-icon class="svg-icon--right" name="加号1" style="font-size: 26px;" />删除
+                    </div>
+                  </div>
+                  <template #reference>
+                    <span @click.self.stop="visible = true"> ....</span>
+                  </template>
+                </el-popover>
+
               </span>
             </span>
           </template>
@@ -52,6 +68,15 @@
       </el-table>
     </div>
   </div>
+  <el-dialog v-model="dialogVisible" title="Tips" width="30%" :before-close="handleClose">
+    <span>This is a message</span>
+    <template #footer>
+      <span class="dialog-footer">
+        <el-button @click="dialogVisible = false">Cancel</el-button>
+        <el-button type="primary" @click="dialogVisible = false">Confirm</el-button>
+      </span>
+    </template>
+  </el-dialog>
 
   <el-dialog v-model="dialogFormVisible" title="添加成员" width="800px">
     <div class="dialog-content">
@@ -172,12 +197,20 @@ let datad = reactive({
 const handleNodeClick = (data) => {
   console.log(data)
 }
+const dialogVisible = ref(false)
 const defaultProps = {
   children: 'children',
   label: 'label',
 }
+const visible = ref(false)
+const Operation = () => {
+  console.log(22)
+}
+const dd = () => {
 
-const formLabelWidth = '140px'
+}
+
+
 
 const userdata = () => {
   api.getUserList({}).then(res => {
@@ -226,6 +259,14 @@ for (let i = 0; i < 15; i++) {
   justify-content: space-between;
   font-size: 14px;
   padding-right: 8px;
+
+  &:hover .tree-node {
+    display: block;
+  }
+
+  .tree-node {
+    display: none;
+  }
 }
 
 .content {

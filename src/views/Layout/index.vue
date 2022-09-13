@@ -5,13 +5,14 @@
       <div class="logos">
         <img :src="logo" alt="" />
       </div>
-      <el-menu router :default-active="meunlis.activeMenu" background-color="#48525c" class="nav-menu" collapse>
+      <el-menu router :default-active="meunlis.activeMenu" @select="select()" background-color="#48525c"
+        class="nav-menu" collapse>
         <el-menu-item index="workbench">
-          <svg-icon name="Console" style="font-size: 18px" />
+          <svg-icon name="Console" style="font-size: 18px;" />
           <template #title>工作台</template>
         </el-menu-item>
         <el-menu-item index="9">
-          <svg-icon name="产品" style="font-size: 18px" />
+          <svg-icon name="产品" style="font-size: 18px;" />
           <template #title>产品管理</template>
         </el-menu-item>
         <el-menu-item index="project">
@@ -88,6 +89,7 @@ const { proxy } = getCurrentInstance()
 
 const userstor = useUserStore()
 const { user } = storeToRefs(userstor)
+
 let useeinfo = ref(false)
 
 const handleClick = () => {
@@ -97,11 +99,15 @@ const system = () => {
   proxy.$router.push('/system')
 }
 const meunlis = reactive({
-  activeMenu: location.hash.slice(2)
+  activeMenu: 'aa'
 })
+// 退出
 const LogOut = () => {
   localStorage.clear()
   proxy.$router.push('/login')
+}
+const select = (index) => {
+  meunlis.activeMenu = index
 }
 
 
