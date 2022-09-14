@@ -81,6 +81,6 @@ const form = reactive({
   background-color: #fff;
   margin: 10px;
 
-  .table-container {}
+
 }
 </style>

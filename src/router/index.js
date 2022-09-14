@@ -37,7 +37,15 @@ const routes = [
         meta: {
           title: '系统管理'
         },
-        component: () => import('components/System/index.vue')
+        component: () => import('@/components/System/index.vue')
+      },
+      {
+        name: 'test',
+        path: '/test',
+        meta: {
+          title: '测试管理'
+        },
+        component: () => import('@/components/Test/index.vue')
       }
     ],
   }

@@ -24,21 +24,15 @@ const formAlign = reactive({
   password: '1234567890',
 })
 const onlginger = () => {
-  proxy.$api.login(formAlign).then((res) => {
+  proxy.$api.loginn(formAlign).then((res) => {
     userStore.user = res.data
     ElMessage({
       message: res.message,
       type: 'success',
     })
-
     proxy.$router.push('/')
   })
 
-}
-const userInfo = () => {
-  proxy.$api.getUserinfo().then(res => {
-    console.log(res)
-  })
 }
 </script>
 

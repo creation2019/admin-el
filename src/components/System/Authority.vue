@@ -2,40 +2,94 @@
   权限管理
 */
 <template>
-  <div class="content">
-    <div class="Sidef">
-      <div class="side-header">
-        <div class="header-left">组织架构</div>
-        <div class="header-right">图标</div>
+  <div>
+    <div class="content">
+      <div class="Sidef">
+        <div class="side-header">
+          <div class="header-left">组织架构</div>
+          <div class="header-right">
+            <svg-icon name="加号1" @click="dialogVisible = true" style="font-size: 24px;" />
+          </div>
+        </div>
+        <div class="side-content">
+          <div v-for="item in role.data" key="item.id">{{item.name}}</div>
+        </div>
       </div>
-      <div class="side-content">
-        <el-table :data="tableData" :border="parentBorder" style="width: 100%">
-          <el-table-column type="expand">
-            <template #default="props">
-              <div m="4">
-                <p m="t-0 b-2">State: {{ props.row.state }}</p>
-                <p m="t-0 b-2">City: {{ props.row.city }}</p>
-                <p m="t-0 b-2">Address: {{ props.row.address }}</p>
-                <p m="t-0 b-2">Zip: {{ props.row.zip }}</p>
-              </div>
-            </template>
-          </el-table-column>
-          <el-table-column label="全部部门（8人）" prop="date" />
-        </el-table>
+      <div class="table-container">
+        <el-tree :data="data" show-checkbox node-key="id" :default-expanded-keys="[2, 3]" :default-checked-keys="[5]"
+          :props="defaultProps" />
       </div>
     </div>
-    <div class="table-container">
-      <el-tree :data="data" show-checkbox node-key="id" :default-expanded-keys="[2, 3]" :default-checked-keys="[5]"
-        :props="defaultProps" />
-    </div>
+    <el-dialog v-model="dialogVisible" title="新建权限" width="660px">
+      <div class="dialog-content">
+        <div class="position">
+          <el-form :model="form" label-position="top">
+            <el-form-item label="权限" style="width:100%;">
+              <el-input v-model="From.name" autocomplete="off" />
+            </el-form-item>
+          </el-form>
+        </div>
+      </div>
+      <template #footer>
+        <span class="dialog-footer">
+          <el-button @click="dialogVisible = false">取消</el-button>
+          <el-button type="primary" @click="CreateRoleclick">确定</el-button>
+        </span>
+      </template>
+    </el-dialog>
   </div>
+
 </template>
 
 <script setup>
 
-import { reactive, ref } from 'vue'
-const dialogFormVisible = ref(false)
-const formLabelWidth = '140px'
+import { reactive, ref, getCurrentInstance, onMounted } from 'vue'
+import { ElMessage } from 'element-plus'
+const { proxy } = getCurrentInstance()
+
+const From = reactive({
+  name: ''
+})
+const role = reactive({
+  data: []
+})
+
+const dialogVisible = ref(false)
+// 获取角色列表
+onMounted(() => {
+  Rolelist()
+})
+const Rolelist = () => {
+  proxy.$api.GetRolelist().then((res) => {
+    if (res.status_code == 200) {
+      role.data = res.data.data
+      console.log(res)
+    } else {
+      ElMessage.error(res.message)
+    }
+  })
+}
+
+
+// 新建权限
+const CreateRoleclick = () => {
+  proxy.$api.CreateRole(From).then((res) => {
+    if (res.status_code == 200) {
+      ElMessage({
+        message: `新建${res.message}`,
+        type: 'success',
+      })
+      dialogVisible.value = false
+      From.name = ''
+      Rolelist()
+    } else {
+      ElMessage.error(res.message)
+    }
+
+  })
+
+}
+
 const defaultProps = {
   children: 'children',
   label: 'label',
@@ -184,9 +238,12 @@ const data = [
     ],
   },
 ]
+
+
+
 </script>
 
-<style lang="scss" >
+<style lang="scss" scoped>
 .header-button {
   display: flex;
   padding: 0 10px;
@@ -236,5 +293,9 @@ const data = [
     }
 
   }
+}
+
+.position {
+  padding: 20px;
 }
 </style>

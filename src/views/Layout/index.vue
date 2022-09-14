@@ -19,7 +19,7 @@
           <svg-icon name="项目" style="font-size: 18px" />
           <template #title>项目管理</template>
         </el-menu-item>
-        <el-menu-item index="6">
+        <el-menu-item index="test">
           <svg-icon name="测试" style="font-size: 18px" />
           <template #title>测试管理</template>
         </el-menu-item>
@@ -44,11 +44,11 @@
           <svg-icon name="模块" style="font-size: 18px" />
           <template #title>模块</template>
         </el-menu-item>
-        <el-menu-item index="s" @click="system">
+        <el-menu-item index="System">
           <svg-icon name="系统" style="font-size: 18px" />
           <template #title>系统</template>
         </el-menu-item>
-        <el-menu-item index="">
+        <el-menu-item index="xx">
           <svg-icon name="帮助" style="font-size: 18px" />
           <template #title>帮助</template>
         </el-menu-item>
@@ -81,7 +81,7 @@
 </template>
 <script setup>
 import logo from 'assets/images/logo-2.png'
-import { reactive, ref, getCurrentInstance, onMounted } from 'vue'
+import { reactive, ref, getCurrentInstance, } from 'vue'
 import { ElMessage } from 'element-plus'
 import { storeToRefs } from 'pinia'
 import { useUserStore } from '@/store/userinfo'
@@ -95,15 +95,13 @@ let useeinfo = ref(false)
 const handleClick = () => {
   useeinfo.value = !useeinfo.value
 }
-const system = () => {
-  proxy.$router.push('/system')
-}
 const meunlis = reactive({
   activeMenu: 'aa'
 })
 // 退出
 const LogOut = () => {
   localStorage.clear()
+  userstor.user = {}
   proxy.$router.push('/login')
 }
 const select = (index) => {

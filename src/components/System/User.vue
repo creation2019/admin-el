@@ -2,234 +2,235 @@
   用户管理
 */
 <template>
-  <div class="header-button">
-    <el-input v-model="input" style="max-width:200px; border-radius: none;" placeholder="Please input" clearable />
-    <el-button type="primary" @click="dialogFormVisible = true">
-      <el-icon class="el-icon--right">
-        <Upload />
-      </el-icon>添加新成员
-    </el-button>
-  </div>
-  <div class="content">
-    <div class="Sidef">
-      <div class="side-header">
-        <div class="header-left">组织架构</div>
-        <div class="header-right">
-          <svg-icon class="svg-icon--right" name="加号1" style="font-size: 26px;" />
-          <svg-icon name="箭头_上一页" style="font-size: 26px;" @click="hiddenisshow" />
+  <div>
+    <div class="header-button">
+      <el-input v-model="input" style="max-width:200px; border-radius: none;" placeholder="Please input" clearable />
+      <el-button type="primary" @click="dialogFormVisible = true">
+        <el-icon class="el-icon--right">
+          <Upload />
+        </el-icon>添加新成员
+      </el-button>
+    </div>
+    <div class="content">
+      <div class="Sidef">
+        <div class="side-header">
+          <div class="header-left">组织架构</div>
+          <div class="header-right">
+            <svg-icon class="svg-icon--right" name="加号1" @click="dialogVisible = true" style="font-size: 26px;" />
+            <!-- <svg-icon name="箭头_上一页" style="font-size: 26px;" @click="hiddenisshow" /> -->
+          </div>
+        </div>
+        <div class="side-content">
+          <el-tree :data="datad.data" :props="defaultProps" @node-click="handleNodeClick">
+            <template #default="{ node, data }">
+              <span class="custom-tree-node">
+                <span>
+                  <svg-icon name="部门详情 (1)" style="font-size: 18px" />
+                  {{node.label }}({{data.count}}人)
+                </span>
+                <span class="tree-node" @click.self.stop="Operation">
+                  <el-popover v-model:visible="visible" placement="top" :show-arrow="false" :width="160">
+                    <div style="text-align: left; margin: 0">
+                      <div @click="Position(data)">
+                        <svg-icon class="svg-icon--right" name="加号1" style="font-size: 26px;" /> 新建
+                      </div>
+                      <div @click="EditSection(data)">
+                        <svg-icon class="svg-icon--right" name="加号1" style="font-size: 26px;" /> 编辑
+                      </div>
+                      <div @click="DeleteSection(data)">
+                        <svg-icon class="svg-icon--right" name="加号1" style="font-size: 26px;" />删除
+                      </div>
+                    </div>
+                    <template #reference>
+                      <span @click.self.stop="visible = true"> ....</span>
+                    </template>
+                  </el-popover>
+                </span>
+              </span>
+            </template>
+          </el-tree>
         </div>
       </div>
-      <div class="side-content">
-        <el-tree :data="datad.data" :props="defaultProps" @node-click="handleNodeClick">
-          <template #default="{ node, data }">
-            <span class="custom-tree-node">
-              <span>
-                <svg-icon name="部门详情 (1)" style="font-size: 18px" />
-                {{ node.label }}
-              </span>
-              <span class="tree-node" @click.self.stop="Operation">
-                <el-popover v-model:visible="visible" placement="top" :show-arrow="false" :width="160">
-                  <div style="text-align: left; margin: 0">
-                    <div @click="dialogVisible = true">
-                      <svg-icon class="svg-icon--right" name="加号1" style="font-size: 26px;" /> 新建
-                    </div>
-                    <div>
-                      <svg-icon class="svg-icon--right" name="加号1" style="font-size: 26px;" /> 编辑
-                    </div>
-                    <div>
-                      <svg-icon class="svg-icon--right" name="加号1" style="font-size: 26px;" />删除
-                    </div>
-                  </div>
-                  <template #reference>
-                    <span @click.self.stop="visible = true"> ....</span>
-                  </template>
-                </el-popover>
-
-              </span>
-            </span>
-          </template>
-        </el-tree>
+      <div class="table-container">
+        <el-table :data="tableData" :border="true">
+          <el-table-column fixed type="index" />
+          <el-table-column fixed prop="name" label="姓名" width="120" />
+          <el-table-column prop="name" label="用户名" width="120" />
+          <el-table-column prop="phoone" label="手机号" width="150" />
+          <el-table-column prop="address" label="邮箱" />
+          <el-table-column prop="address" label="部门" />
+          <el-table-column prop="address" label="职位" />
+          <el-table-column prop="date" label="创建时间" width="200" />
+          <el-table-column prop="date" label="最后登录时间" width="200" />
+          <el-table-column fixed="right" label="状态" width="120">
+            <el-button type="danger" round>Danger</el-button>
+          </el-table-column>
+        </el-table>
       </div>
     </div>
-    <div class="table-container">
-      <el-table :data="tableData" :border="true">
-        <el-table-column fixed type="index" />
-        <el-table-column fixed prop="name" label="姓名" width="120" />
-        <el-table-column prop="name" label="用户名" width="120" />
-        <el-table-column prop="phoone" label="手机号" width="150" />
-        <el-table-column prop="address" label="邮箱" />
-        <el-table-column prop="address" label="部门" />
-        <el-table-column prop="address" label="职位" />
-        <el-table-column prop="date" label="创建时间" width="200" />
-        <el-table-column prop="date" label="最后登录时间" width="200" />
-        <el-table-column fixed="right" label="状态" width="120">
-          <el-button type="danger" round>Danger</el-button>
-        </el-table-column>
-      </el-table>
-    </div>
+    <el-dialog v-model="dialogVisible" title="新建部门" width="660px">
+      <div class="dialog-content">
+        <div class="position">
+          <el-form :model="form" label-position="top">
+            <el-form-item label="部门名称" style="width:100%;">
+              <el-input v-model="form.section_name" autocomplete="off" />
+            </el-form-item>
+          </el-form>
+        </div>
+      </div>
+      <template #footer>
+        <span class="dialog-footer">
+          <el-button @click="dialogVisible = false">取消</el-button>
+          <el-button type="primary" @click="CreateDepartment">确定</el-button>
+        </span>
+      </template>
+    </el-dialog>
+    <el-dialog v-model="newPosition" title="新建职位" width="660px">
+      <div class="dialog-content">
+        <div class="position">
+          <el-form :model="form" label-position="top">
+            <el-form-item label="职位名称" style="width:100%;">
+              <el-input v-model="form.section_name" autocomplete="off" />
+            </el-form-item>
+          </el-form>
+        </div>
+      </div>
+      <template #footer>
+        <span class="dialog-footer">
+          <el-button @click="newPosition = false">取消</el-button>
+          <el-button type="primary" @click="NewPosition">确定</el-button>
+        </span>
+      </template>
+    </el-dialog>
+    <el-dialog v-model="editingeDpartment" title="编辑部门" width="660px">
+      <div class="dialog-content">
+        <div class="position">
+          <el-form :model="form" label-position="top">
+            <el-form-item label="部门名称" style="width:100%;">
+              <el-input v-model="form.section_name" autocomplete="off" />
+            </el-form-item>
+          </el-form>
+        </div>
+      </div>
+      <template #footer>
+        <span class="dialog-footer">
+          <el-button @click="editingeDpartment = false">取消</el-button>
+          <el-button type="primary" @click="Editingedpartment">确定</el-button>
+        </span>
+      </template>
+    </el-dialog>
+    <el-dialog v-model="deleteSection" width="660px" center :show-close="false">
+      <span>It should be not center bydefault</span>
+      <template #footer>
+        <span class="dialog-footer">
+          <el-button @click="deleteSection = false">取消</el-button>
+          <el-button type="primary" @click="DeleteSections">确定</el-button>
+        </span>
+      </template>
+    </el-dialog>
+    <el-dialog v-model="dialogFormVisible" title="添加成员" width="800px">
+      <div class="dialog-content">
+        <div class="dialog-tile">
+          图标 添加成员账号,成员通过用户名和初始密码登录系统
+        </div>
+        <el-form :model="form" label-position="top">
+          <el-form-item label="姓名">
+            <el-input v-model=" form.name" autocomplete="off" />
+          </el-form-item>
+          <el-form-item label="登录用户名">
+            <el-input v-model=" form.account" autocomplete="off" />
+          </el-form-item>
+          <el-form-item label="手机号">
+            <el-input v-model=" form.phone" autocomplete="off" />
+          </el-form-item>
+          <el-form-item label="邮箱">
+            <el-input v-model=" form.email" autocomplete="off" />
+          </el-form-item>
+          <el-form-item label="初始密码">
+            <el-input v-model=" form.password" autocomplete="off" />
+          </el-form-item>
+          <el-form-item label="权限">
+            <el-select v-model="form.role_id" placeholder="Please select a zone">
+              <el-option label="Zone No.1" value="shanghai" />
+              <el-option label="Zone No.2" value="beijing" />
+            </el-select>
+          </el-form-item>
+          <el-form-item label="所属部门">
+            <el-select v-model="form.region" placeholder="Please select a zone">
+              <el-option label="Zone No.1" value="shanghai" />
+              <el-option label="Zone No.2" value="beijing" />
+            </el-select>
+          </el-form-item>
+          <el-form-item label="职位">
+            <el-select v-model="form.region" placeholder="Please select a zone">
+              <el-option label="Zone No.1" value="shanghai" />
+              <el-option label="Zone No.2" value="beijing" />
+            </el-select>
+          </el-form-item>
+        </el-form>
+      </div>
+
+      <template #footer>
+        <span class="dialog-footer">
+          <el-button @click="dialogFormVisible = false">取消</el-button>
+          <el-button type="primary" @click="dialogFormVisible = false">确认</el-button>
+        </span>
+      </template>
+    </el-dialog>
   </div>
-  <el-dialog v-model="dialogVisible" title="Tips" width="30%" :before-close="handleClose">
-    <span>This is a message</span>
-    <template #footer>
-      <span class="dialog-footer">
-        <el-button @click="dialogVisible = false">Cancel</el-button>
-        <el-button type="primary" @click="dialogVisible = false">Confirm</el-button>
-      </span>
-    </template>
-  </el-dialog>
-
-  <el-dialog v-model="dialogFormVisible" title="添加成员" width="800px">
-    <div class="dialog-content">
-      <div class="dialog-tile">
-        图标 添加成员账号,成员通过用户名和初始密码登录系统
-      </div>
-      <el-form :model="form" label-position="top">
-        <el-form-item label="姓名">
-          <el-input v-model=" form.name" autocomplete="off" />
-        </el-form-item>
-        <el-form-item label="登录用户名">
-          <el-input v-model=" form.name" autocomplete="off" />
-        </el-form-item>
-        <el-form-item label="手机号">
-          <el-input v-model=" form.name" autocomplete="off" />
-        </el-form-item>
-        <el-form-item label="邮箱">
-          <el-input v-model=" form.name" autocomplete="off" />
-        </el-form-item>
-        <el-form-item label="初始密码">
-          <el-input v-model=" form.name" autocomplete="off" />
-        </el-form-item>
-        <el-form-item label="权限">
-          <el-select v-model="form.region" placeholder="Please select a zone">
-            <el-option label="Zone No.1" value="shanghai" />
-            <el-option label="Zone No.2" value="beijing" />
-          </el-select>
-        </el-form-item>
-        <el-form-item label="所属部门">
-          <el-select v-model="form.region" placeholder="Please select a zone">
-            <el-option label="Zone No.1" value="shanghai" />
-            <el-option label="Zone No.2" value="beijing" />
-          </el-select>
-        </el-form-item>
-        <el-form-item label="职位">
-          <el-select v-model="form.region" placeholder="Please select a zone">
-            <el-option label="Zone No.1" value="shanghai" />
-            <el-option label="Zone No.2" value="beijing" />
-          </el-select>
-        </el-form-item>
-      </el-form>
-    </div>
-
-    <template #footer>
-      <span class="dialog-footer">
-        <el-button @click="dialogFormVisible = false">Cancel</el-button>
-        <el-button type="primary" @click="dialogFormVisible = false">Confirm</el-button>
-      </span>
-    </template>
-  </el-dialog>
 </template>
 
 <script setup>
 
 import api from '@/api'
-import { reactive, ref } from 'vue'
+import { reactive, ref, onMounted, getCurrentInstance } from 'vue'
+import { ElMessage } from 'element-plus'
+const { proxy } = getCurrentInstance()
 const input = ref('')
-const dialogTableVisible = ref(false)
+const newPosition = ref(false)
+const editingeDpartment = ref(false)
 const dialogFormVisible = ref(false)
+const deleteSection = ref(false)
 let datad = reactive({
-  data: [
-    {
-      label: '全部部门',
-    },
-    {
-      label: '总经办',
-      children: [
-        {
-          label: '项目总监',
-        },
-      ],
-    },
-    {
-      label: '商务部',
-      children: [
-        {
-          label: '商务主管',
-        },
-        {
-          label: '商务专员',
-        },
-      ],
-    },
-    {
-      label: '财务部',
-      children: [
-        {
-          label: '财务主管',
-        },
-        {
-          label: '财务专员',
-        },
-      ],
-    },
-    {
-      label: '生产部',
-      children: [
-        {
-          label: '厂务主管',
-        },
-      ],
-    },
-    {
-      label: '品质部',
-      children: [
-        {
-          label: '品质组长',
-        },
-      ],
-    },
-    {
-      label: '储运部',
-    },
-  ]
+  data: []
 }
-
 )
-const handleNodeClick = (data) => {
-  console.log(data)
-}
+
+
+const form = reactive({
+  name: '',
+  account: '',
+  phone: '',
+  email: '',
+  password: '',
+  role_id: '',
+  section_name: '',
+  section_id: 0,
+  office_name: '',
+  office_id: ''
+})
+
 const dialogVisible = ref(false)
 const defaultProps = {
-  children: 'children',
-  label: 'label',
+  children: 'child',
+  label: 'section_name',
 }
 const visible = ref(false)
 const Operation = () => {
   console.log(22)
 }
-const dd = () => {
 
-}
-
-
-
+onMounted(() => {
+  userdata()
+})
 const userdata = () => {
-  api.getUserList({}).then(res => {
-    console.log(res)
+  api.getUserList().then(res => {
     datad.data = res.sectionList
   })
 }
-userdata()
 
-const form = reactive({
-  name: '',
-  region: '',
-  date1: '',
-  date2: '',
-  delivery: false,
-  type: [],
-  resource: '',
-  desc: '',
-})
+
+
 const data = []
 const value = ref('')
 for (let i = 0; i < 15; i++) {
@@ -240,6 +241,96 @@ for (let i = 0; i < 15; i++) {
     address: ` `,
   })
 }
+
+// 创建部门
+const CreateDepartment = () => {
+  const params = { section_name: form.section_name }
+  proxy.$api.addDepartment(params).then((res) => {
+    if (res.status_code == 200) {
+      ElMessage({
+        message: res.message,
+        type: 'success',
+      })
+      dialogVisible.value = false
+      form.section_name = ''
+      userdata()
+    } else {
+      form.section_name = ''
+      ElMessage.error(res.message)
+    }
+  })
+}
+
+//编辑部门
+const EditSection = (data) => {
+  form.section_name = data.section_name
+  editingeDpartment.value = true
+  form.section_id = data.id
+}
+const Editingedpartment = () => {
+  const params = { section_name: form.section_name }
+  const section_id = form.section_id
+
+  proxy.$api.EditingeDpartment(params, section_id).then((res) => {
+    if (res.status_code == 200) {
+      ElMessage({
+        message: `编辑${res.message}`,
+        type: 'success',
+      })
+      EditingeDpartment.value = false
+      userdata()
+    } else {
+      ElMessage.error(res.message)
+    }
+
+  })
+}
+//删除部门
+const DeleteSection = (data) => {
+  deleteSection.value = true
+  form.section_id = data.id
+}
+const DeleteSections = () => {
+  const section_id = form.section_id
+  proxy.$api.DeleteSectionend(section_id).then((res) => {
+    if (res.status_code == 200) {
+      ElMessage({
+        message: `删除${res.message}`,
+        type: 'success',
+      })
+      deleteSection.value = false
+      userdata()
+    } else {
+      ElMessage.error(res.message)
+    }
+
+  })
+}
+// 新建职位
+const Position = (data) => {
+  form.office_name = data.section_name
+  form.section_id = data.id
+  newPosition.value = true
+}
+const NewPosition = () => {
+  const params = { office_name: form.office_name, section_id: form.section_id }
+  proxy.$api.CreatePosition(params).then((res) => {
+    if (res.status_code == 200) {
+      ElMessage({
+        message: `添加${res.message}`,
+        type: 'success',
+      })
+      newPosition.value = false
+      userdata()
+    } else {
+      ElMessage.error(res.message)
+    }
+
+  })
+
+}
+
+
 </script>
 
 <style lang="scss" scoped>
@@ -320,6 +411,9 @@ for (let i = 0; i < 15; i++) {
 
 }
 
+.dialog-content {
+  padding: 20px;
+}
 
 .el-form {
   display: flex;
@@ -334,5 +428,9 @@ for (let i = 0; i < 15; i++) {
   .el-select {
     width: 355px
   }
+}
+
+.position {
+  padding: 20px;
 }
 </style>

@@ -1,24 +1,25 @@
 <template>
-  <div class="layout-header">
-    <div class="header-top">
-      <el-breadcrumb separator="/">
-        <el-breadcrumb-item :to="{ path: '/' }">homepage</el-breadcrumb-item>
-        <el-breadcrumb-item>promotion detail</el-breadcrumb-item>
-      </el-breadcrumb>
-      <div class="breadcrumb-right">
-        <ul class="list-inline">
-          <li v-for="(item,index) in data" :key="item.name" @click="selectactive(item,index)"
-            :class="item.off ? 'active' : ''">
-            {{item.name}}</li>
-        </ul>
+  <div>
+    <div class="layout-header">
+      <div class="header-top">
+        <el-breadcrumb separator="/">
+          <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+          <el-breadcrumb-item>promotion</el-breadcrumb-item>
+        </el-breadcrumb>
+        <div class="breadcrumb-right">
+          <ul class="list-inline">
+            <li v-for="(item,index) in data" :key="item.name" @click="selectactive(item,index)"
+              :class="item.off ? 'active' : ''">
+              {{item.name}}</li>
+          </ul>
+        </div>
       </div>
     </div>
-  </div>
-  <a-layout-content class="layout-content">
-    <keep-alive>
+    <a-layout-content class="layout-content">
       <component :is="current.comName" />
-    </keep-alive>
-  </a-layout-content>
+    </a-layout-content>
+  </div>
+
 </template>
 
 <script setup>
@@ -29,13 +30,14 @@ import Demand from 'components/System/Demand.vue'
 import Setup from 'components/System/Setup.vue'
 import Supply from 'components/System/Supply.vue'
 import User from 'components/System/User.vue'
+import Juisdi from 'components/System/Jurisdiction.vue'
 
 
 const data = reactive([
   {
     name: '用户管理',
     comName: markRaw(User),
-    off: true
+    off: false
   },
   {
     name: '类型需求',
@@ -55,11 +57,16 @@ const data = reactive([
   {
     name: '权限管理',
     comName: markRaw(Authority),
-    off: false
+    off: true
   },
   {
     name: '公司设置',
     comName: markRaw(Setup),
+    off: false
+  },
+  {
+    name: '权限配置',
+    comName: markRaw(Juisdi),
     off: false
   }
 ])
